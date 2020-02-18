@@ -3,6 +3,7 @@ package Controller;
 
 import Entity.User;
 import Utlis.Database;
+import Utlis.PasswordUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,14 +29,15 @@ public class UserController {
      private Statement ste;
   public void Add(User u) throws SQLException
     {
-    PreparedStatement pre=con.prepareStatement("INSERT INTO `user` (`id`, `login`, `pwd`, `lastName`, `firstName`, `role`) VALUES (NULL, ?,?,?,?,?);");
-    pre.setString(1, u.getLogin());
-    pre.setString(2, u.getPassword());
-    pre.setString(3, u.getLastname());
-    pre.setString(4, u.getFirstname());
-    pre.setString(5, "client");
+        PasswordUtils crypt = new PasswordUtils();
+        PreparedStatement pre=con.prepareStatement("INSERT INTO `user` (`id`, `login`, `pwd`, `lastName`, `firstName`, `role`) VALUES (NULL, ?,?,?,?,?);");
+        pre.setString(1, u.getLogin());
+        pre.setString(2, crypt.hashPassword(u.getPassword()));
+        pre.setString(3, u.getLastname());
+        pre.setString(4, u.getFirstname());
+        pre.setString(5, "client");
 
-    pre.executeUpdate();
+        pre.executeUpdate();
     }
       
      public List<User> readAll() throws SQLException {
@@ -70,5 +72,27 @@ public class UserController {
         return preparedStatement.executeUpdate()==1;
         
         
+    }
+    
+    public boolean RechercherParId(int id) throws SQLException
+    {
+        ste=con.createStatement();
+        ResultSet rs=ste.executeQuery("SELECT * FROM user where id="+ id);
+        if (rs.next()) { 
+               
+               return true;
+        }
+        return false;
+    }
+    
+    public boolean RechercherParLogin(String login) throws SQLException
+    {
+        ste=con.createStatement();
+        ResultSet rs=ste.executeQuery("SELECT * FROM user where login="+ login);
+        if (rs.next()) { 
+               
+               return true;
+        }
+        return false;
     }
 }

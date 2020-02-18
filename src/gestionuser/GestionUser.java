@@ -1,15 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package gestionuser;
 
 import Controller.LoginController;
 import Controller.UserController;
 import Entity.User;
+import Utlis.MailUtils;
 import java.sql.SQLException;
 import java.util.List;
+import Utlis.sendSMS;
 
 /**
  *
@@ -26,22 +24,36 @@ public class GestionUser {
         
         LoginController ser = new LoginController();
         UserController service = new UserController();
-        User u1 = new User("toupa","pwd","mustapha","kerrou");
+        MailUtils mail = new MailUtils();
+        User u1 = new User("admin","system","mustapha","kerrou");
         //User u2 = new User("admin","system","mustapha","kerrou");
         //User u3 = new User("toupa","toupa","toupa","toupa");
         //service.Add(u1);
         //service.Add(u2);
         //ser.logIn("admin","system");
         //ser.logIn("amine22","amine227");
-        /*if(service.delete(u3) == true)
+        /*if(service.delete(u1) == true)
             System.out.println("deleted");
         else
             System.out.println("not deleted");
         */
-        List<User> list = service.readAll();
-        System.out.println(list); 
-        u1.setFirstname("ttt");
-        service.update(u1);
+        /*if(service.RechercherParId(11))
+            System.out.println("user trouvée");
+        else
+            System.out.println("non trouvée");*/
+        //List<User> list = service.readAll();
+        //System.out.println(list); 
+        //u1.setFirstname("ttt");
+        //service.update(u1);
+        //sendSMS sms = new sendSMS();
+        //System.out.println(sms.sendSms());
+        //LoginController fb = new LoginController();
+        //fb.getAccessTokenfb();
+        mail.mail();
+        
+        
+        
+        
        }   
 
 }
